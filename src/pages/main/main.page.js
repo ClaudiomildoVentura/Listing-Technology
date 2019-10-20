@@ -1,44 +1,44 @@
-import React from 'react'
-import api from '../../services/api'
+import React, {Component} from 'react'
 import './styles.css'
 import { Link } from 'react-router-dom'
+import api from '../../services/api'
 
-export default class Main extends React.Component {
+export default class Main extends Component {
     state = {
         products: [],
         productInfo: {},
         page: 1
-    };
-    //Metodo executado assim que o componente for renderixazdo em tela
+    }
+    //Metodo executado assim que o componente for renderizado em tela
     componentDidMount() {
-        this.loadProducts();
+        this.loadProducts()
     }
 
     // modelo arrow function
     loadProducts = async (page = 1) => {
-        const response = await api.get(`/products?page=${page}`);
-        const { docs, ...productInfo } = response.data;
+        const response = await api.get(`/products?page=${page}`)
+        const { docs, ...productInfo } = response.data
         this.setState({ products: docs, productInfo, page })
     }
 
     prevPage = async () => {
-        const { page } = this.state;
+        const { page } = this.state
         if (page === 1) {
-            return;
+            return
         } else {
-            const pageNumber = page - 1;
-            this.loadProducts(pageNumber);
-        };
+            const pageNumber = page - 1
+            this.loadProducts(pageNumber)
+        }
     }
 
     nextPage = async () => {
         const { page, productInfo } = this.state;
         if (page === productInfo.pages) {
-            return;
+            return
         } else {
-            const pageNumber = page + 1;
-            this.loadProducts(pageNumber);
-        };
+            const pageNumber = page + 1
+            this.loadProducts(pageNumber)
+        }
     }
 
     render() {
@@ -59,6 +59,6 @@ export default class Main extends React.Component {
                     <button disabled={page === productInfo.pages} onClick={this.nextPage}>Proximo</button>
                 </div>
             </div>
-        );
+        )
     }
 }
